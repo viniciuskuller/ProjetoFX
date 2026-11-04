@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Produto {
     private SimpleStringProperty nome;
@@ -66,7 +67,12 @@ public class Produto {
     }
 
     public void setDiaValidade(LocalDate diaValidade) {
-        this.diaValidade.set(diaValidade);
+        if(diaValidade.isBefore(LocalDate.now())){
+            throw new IllegalArgumentException("Data de validade já foi.");
+        }
+        else {
+            this.diaValidade.set(diaValidade);
+        }
     }
 
     public SimpleObjectProperty<LocalDate> diaValidadeProperty() {
@@ -74,7 +80,12 @@ public class Produto {
     }
 
     public void setDiaLote(LocalDate diaLote) {
-        this.diaLote.set(diaLote);
+        if(diaLote.isAfter(LocalDate.now())){
+            throw new IllegalArgumentException("Data de lote está no futuro. ")
+        }
+        else {
+            this.diaLote.set(diaLote);
+        }
     }
 
     public LocalDate getDiaLote() {
@@ -86,7 +97,12 @@ public class Produto {
     }
 
     public void setQuantidade(int quantidade) {
-        this.quantidade.set(quantidade);
+        if(quantidade < 0){
+            this.quantidade.set(0);
+        }
+        else {
+            this.quantidade.set(quantidade);
+        }
     }
 
     public int getQuantidade () {
@@ -95,6 +111,10 @@ public class Produto {
 
     public SimpleIntegerProperty quantidadeProperty() {
         return quantidade;
+    }
+    public long getDiasRestantes(){
+        LocalDate hoje = LocalDate.now();
+        return ChronoUnit.DAYS.between(now, getDiaValidade());
     }
 
 }
