@@ -27,4 +27,11 @@ public class Produto {
     public void setPreco(double preco) {
         this.preco.set(preco);
     }
+
+    public SimpleStringProperty nomeProperty() {
+        return nome;
+    }
+
+    public SimpleDoubleProperty precoProperty() {
+        return preco;
 }
