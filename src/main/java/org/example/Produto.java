@@ -17,12 +17,18 @@ public class Produto {
     private SimpleObjectProperty<LocalDate> diaValidade;
 
     public Produto(String nome, double precoAtacado, double precoVenda, int quantidade, LocalDate diaLote, LocalDate diaValidade) {
-        this.nome = new SimpleStringProperty(nome);
-        this.precoAtacado = new SimpleDoubleProperty(precoAtacado);
-        this.precoVenda = new SimpleDoubleProperty(precoVenda);
-        this.quantidade = new SimpleIntegerProperty(quantidade);
-        this.diaLote = new SimpleObjectProperty<>(diaLote);
-        this.diaValidade = new SimpleObjectProperty<>(diaValidade);
+        this.nome = new SimpleStringProperty();
+        this.precoAtacado = new SimpleDoubleProperty();
+        this.precoVenda = new SimpleDoubleProperty();
+        this.quantidade = new SimpleIntegerProperty();
+        this.diaLote = new SimpleObjectProperty<>();
+        this.diaValidade = new SimpleObjectProperty<>();
+        setNome(nome);
+        setPrecoAtacado(precoAtacado);
+        setPrecoVenda(precoVenda);
+        setQuantidade(quantidade);
+        setDiaLote(diaLote);
+        setDiaValidade(diaValidade);
     }
 
 
@@ -67,10 +73,12 @@ public class Produto {
     }
 
     public void setDiaValidade(LocalDate diaValidade) {
+        if(diaValidade == null){
+            throw new IllegalArgumentException("A data de validade é obrigatória. ");
+        }
         if(diaValidade.isBefore(LocalDate.now())){
             throw new IllegalArgumentException("Data de validade já foi.");
-        }
-        else {
+        } else {
             this.diaValidade.set(diaValidade);
         }
     }
@@ -80,8 +88,11 @@ public class Produto {
     }
 
     public void setDiaLote(LocalDate diaLote) {
+        if(diaValidade == null){
+            throw new IllegalArgumentException("A data de lote é obrigatória. ");
+        }
         if(diaLote.isAfter(LocalDate.now())){
-            throw new IllegalArgumentException("Data de lote está no futuro. ")
+            throw new IllegalArgumentException("Data de lote está no futuro. ");
         }
         else {
             this.diaLote.set(diaLote);
@@ -114,7 +125,7 @@ public class Produto {
     }
     public long getDiasRestantes(){
         LocalDate hoje = LocalDate.now();
-        return ChronoUnit.DAYS.between(now, getDiaValidade());
+        return ChronoUnit.DAYS.between(hoje, getDiaValidade());
     }
 
 }
