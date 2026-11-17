@@ -26,7 +26,7 @@ public class Controller {
     public Controller(){
         configurarTabela();
 
-        btnSalvar.setOnAction(evento -> aoClicarSalvar);
+        btnSalvar.setOnAction(evento -> aoClicarSalvar());
     }
     public VBox getLayout() {
         // Organiza os campos do formulário
